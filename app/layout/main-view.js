@@ -55,6 +55,20 @@ function MainController($scope, $element, $attrs, projectService) { // project-f
     };
 
     /**
+     * Edit project
+     * @param project - updated project
+     */
+    ctrl.onEditProject = function (project) {
+        for (var i=0; i<ctrl.projects.length; i++) {
+            if (ctrl.projects[i].id === project.id) {
+                ctrl.projects[i] = project;
+                projectService.updateProject(project).then(function (data) {});
+                break;
+            }
+        }
+    };
+
+    /**
      * Handle cancel form
      */
     ctrl.onCancelForm = function () {
