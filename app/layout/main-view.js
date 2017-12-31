@@ -87,9 +87,9 @@ function MainController($scope, $element, $attrs, projectService) { // project-f
     /**
      * Handle cancel form
      */
-    ctrl.onCancelForm = function () {
+    ctrl.onCancelForm = function (project) {
         ctrl.isEditMode = false;
-        ctrl.selectedProject = null;
+        ctrl.selectedProject = Boolean(project.id) ? project : null;
     };
 
     /**

@@ -23,7 +23,7 @@
             <div ng-switch-when="true">
                 <project-form project="$ctrl.selectedProject"
                               on-submit-form="$ctrl.onSubmitForm(project)"
-                              on-cancel-form="$ctrl.onCancelForm()"></project-form>
+                              on-cancel-form="$ctrl.onCancelForm(project)"></project-form>
             </div>
             <div ng-switch-when="false">
                 <project-view project="$ctrl.selectedProject"
