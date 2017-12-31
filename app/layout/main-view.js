@@ -43,15 +43,28 @@ function MainController($scope, $element, $attrs, projectService) { // project-f
     };
 
     /**
+     * Handle project view 'edit project' button
+     * @param project - project to edit
+     */
+    ctrl.onClickEditProject = function (project) {
+        ctrl.selectedProject = project;
+        ctrl.isEditMode = true;
+    };
+
+    /**
      * Handle project form submit
      * @param project - project data
      */
     ctrl.onSubmitForm = function (project) {
-        projectService.addProject(project).then(function (data) {
-            ctrl.projects.push(data);
-            ctrl.selectedProject = data;
-            ctrl.isEditMode = false;
-        });
+        if (!project.id) {
+            projectService.addProject(project).then(function (data) {
+                ctrl.projects.push(data);
+                ctrl.selectedProject = data;
+                ctrl.isEditMode = false;
+            });
+        } else {
+            ctrl.onEditProject(project);
+        }
     };
 
     /**
@@ -62,7 +75,10 @@ function MainController($scope, $element, $attrs, projectService) { // project-f
         for (var i=0; i<ctrl.projects.length; i++) {
             if (ctrl.projects[i].id === project.id) {
                 ctrl.projects[i] = project;
-                projectService.updateProject(project).then(function (data) {});
+                projectService.updateProject(project).then(function (data) {
+                    ctrl.isEditMode = false;
+                    ctrl.selectedProject = project;
+                });
                 break;
             }
         }
