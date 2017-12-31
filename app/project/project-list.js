@@ -10,6 +10,7 @@ function ProjectListController() {
    * @param project - project to select
    */
   ctrl.selectProject = function (project) {
+    if (ctrl.isLocked) return;
     ctrl.onSelectProject({project: project});
   }
 }
@@ -19,6 +20,7 @@ angular.module('myApp').component('projectList', {
   controller: ProjectListController,
   bindings: {
     projects: '<',
+    isLocked: '<',
     selectedProject: '<',
     onSelectProject: '&'
   }
