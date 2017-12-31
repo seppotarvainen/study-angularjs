@@ -16,6 +16,10 @@ function MainController($scope, $element, $attrs, projectService) { // project-f
                 ctrl.selectedProject = ctrl.projects[0]
             }
         );
+
+        projectService.subscribeLock($scope, function (event, data) {
+            console.log(data);
+        });
     };
 
     /**
@@ -23,6 +27,7 @@ function MainController($scope, $element, $attrs, projectService) { // project-f
      * @param project - project to select
      */
     ctrl.onSelectProject = function (project) {
+        if (projectService.getLock()) return;
         ctrl.selectedProject = project;
     };
 
@@ -38,6 +43,7 @@ function MainController($scope, $element, $attrs, projectService) { // project-f
      * Handle click 'add project' button
      */
     ctrl.clickAddProject = function () {
+        if (projectService.getLock()) return;
         ctrl.selectedProject = {title: "", description: ""};
         ctrl.isEditMode = true;
     };
