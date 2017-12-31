@@ -4,7 +4,7 @@
 
 function MainController($scope, $element, $attrs, projectService) { // project-factory
     var ctrl = this;
-
+    ctrl._isLocked = projectService.getLock();
     /**
      * Constructor
      */
@@ -18,7 +18,7 @@ function MainController($scope, $element, $attrs, projectService) { // project-f
         );
 
         projectService.subscribeLock($scope, function (event, data) {
-            console.log(data);
+            ctrl._isLocked = data;
         });
     };
 
@@ -27,7 +27,6 @@ function MainController($scope, $element, $attrs, projectService) { // project-f
      * @param project - project to select
      */
     ctrl.onSelectProject = function (project) {
-        if (projectService.getLock()) return;
         ctrl.selectedProject = project;
     };
 
@@ -43,7 +42,8 @@ function MainController($scope, $element, $attrs, projectService) { // project-f
      * Handle click 'add project' button
      */
     ctrl.clickAddProject = function () {
-        if (projectService.getLock()) return;
+        if (ctrl._isLocked) return;
+
         ctrl.selectedProject = {title: "", description: ""};
         ctrl.isEditMode = true;
     };
